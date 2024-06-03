@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const mainRouter = require('./routes/mainRouter');
@@ -6,6 +7,9 @@ const app = express();
 
 
 
+app.use(cors({
+    origin: 'http://localhost:5173',
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());

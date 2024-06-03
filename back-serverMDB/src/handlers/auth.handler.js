@@ -6,6 +6,10 @@ const createAccessToken = require('../libs/jwtAccessToken.js');
 const registerHandler = async (req, res) => {
     const {email, password, username} = req.body;
     try {
+        const userFound = await User.findOne({email})
+
+        if (userFound) return res.status(400).json({message: "Este email ya esta en uso"})
+
         const passwordHash = await bcrypt.hash(password, 10) //genera una cadena de caracteres codificados, el numero es la cantidad de veces que se ejecuta el metodo para encriptar.
 
         const newUser = new User ({
@@ -19,7 +23,7 @@ const registerHandler = async (req, res) => {
         res.cookie("token", token);
         res.status(200).json(userSaved);
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(400).json({error: error.response})
     }
     
 };

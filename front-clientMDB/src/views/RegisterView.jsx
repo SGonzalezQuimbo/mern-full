@@ -1,14 +1,25 @@
 import { useForm } from 'react-hook-form'
+import { axios } from '../helpers/axios'
+
 
 function RegisterView() {
     const { register, handleSubmit } = useForm();
-    return (
+
+    const onSubmit = handleSubmit( async (values) => {
+        console.log(values);
+        try {
+            const res = await axios.post('/register', values);
+            console.log(res);
+        } catch (error) {
+            console.log("ERROR", error.response.data.message);
+        }
+    })
+
+    return ( 
         <div>
 
             <form
-                onSubmit={handleSubmit((values) => {
-                    console.log(values);
-                })}>
+                onSubmit={onSubmit}>
                 {/* <label>Nombre de usuario:</label>
                 <input type="text" {...register("username", { required: true })} />
 
