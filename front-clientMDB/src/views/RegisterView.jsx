@@ -1,25 +1,40 @@
 import { useForm } from 'react-hook-form'
-import { axios } from '../helpers/axios'
-
+//import { axios } from '../helpers/axios'
+import { useAuth } from '../context/AuthContext';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function RegisterView() {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm(); //aca tambien extraer los errorres para mostrarlos en pantalla
+    const {signup, isAuthenticated} = useAuth();
+    const navigate = useNavigate();
+    console.log(isAuthenticated);
+
+
+    useEffect(()=>{
+        if (isAuthenticated) {
+            navigate('/tasks')
+        }
+    }, [isAuthenticated])
+
 
     const onSubmit = handleSubmit( async (values) => {
-        console.log(values);
-        try {
-            const res = await axios.post('/register', values);
-            console.log(res);
-        } catch (error) {
-            console.log("ERROR", error.response.data.message);
-        }
+
+        signup(values);
+        // console.log(values);
+        // try {
+        //     const res = await axios.post('/register', values);
+        //     console.log(res);
+        // } catch (error) {
+        //     console.log("ERROR", error.response.data.message);
+        // }
     })
 
     return ( 
-        <div>
+        <div  className="flex justify-center" >
+            <div className=" w-96  py-20">
 
-            <form
-                onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} >
                 {/* <label>Nombre de usuario:</label>
                 <input type="text" {...register("username", { required: true })} />
 
@@ -46,7 +61,7 @@ function RegisterView() {
 
 
             </form>
-
+            </div>
         </div>
     )
 }

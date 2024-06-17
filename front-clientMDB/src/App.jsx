@@ -3,6 +3,9 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import RegisterView from './views/RegisterView';
 import Card from './components/Card/Card'
 import './App.css'
+import LoginView from './views/LoginView';
+import ListTasks from './views/ListTasks';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
 
@@ -10,16 +13,18 @@ function App() {
 
   return (
     <div className='app'>
-    <h1>NavBar</h1>
-    <Routes>
-      <Route path='/' element={<h1>Home</h1>}/>
-      <Route path='/login' element={<h1>Login</h1>}/>
-      <Route path='/register' element={<RegisterView/>}/>
-      <Route path='/tasks' element={<h1>Todas las tareas</h1>}/>
-      <Route path='/add-task' element={<h1>Agregar tarea</h1>}/>
-      <Route path='/detail-tasks/:id' element={<h1>Detalle de tareas</h1>}/>
-      <Route path='/profile' element={<h1>Perfil y opciones de perfil</h1>}/>
-    </Routes>
+      <h1>NavBar</h1>
+      <Routes>
+        <Route path='/' element={<h1>HomeView</h1>} />
+        <Route path='/login' element={<LoginView />} />
+        <Route path='/register' element={<RegisterView />} />
+        <Route element={<ProtectedRoute/>}>
+          <Route path='/tasks' element={<ListTasks />} />
+          <Route path='/add-task' element={<h1>TaskFormView</h1>} />
+          <Route path='/detail-tasks/:id' element={<h1>TaskFormView</h1>} />
+          <Route path='/profile' element={<h1>ProfileView</h1>} />
+        </Route>
+      </Routes>
     </div>
   )
 }

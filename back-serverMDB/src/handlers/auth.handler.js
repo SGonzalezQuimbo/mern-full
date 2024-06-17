@@ -1,6 +1,8 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs'); //para encriptar el password
 const createAccessToken = require('../libs/jwtAccessToken.js');
+const jwt  = require('jsonwebtoken');
+const {TOKEN_SECRET} = require('../config.js')
 
 
 const registerHandler = async (req, res) => {
@@ -43,7 +45,7 @@ const loginHandler = async (req, res) => {
 
         const token = await createAccessToken({id: userFound._id});
 
-        res.status(200).cookie("token", token).json(userFound)
+        res.status(200).cookie("token", token).json({message: "Login succesfuly", user: userFound})
     } catch (error) {
         res.status(400).json({error: error.message})
     }
@@ -67,9 +69,29 @@ const profileHandler = async (req, res) => {
 
 }
 
+const verifyToken = async (req, res) => {
+    const {token} = req.cookies;
+
+    if (!token) return res.status(400).json({message: "No token Autorization"});
+
+    jwt.verify(token, TOKEN_SECRET, async (err, user) => {
+        if (err) return res.status(400).json({message: 'No Autorization'});
+
+        const userFound = await User.findById(user.id);
+        if(!userFound) return res.status(400).json({message: 'No Autorization'});
+
+        return res.status(200).json({
+            id: userFound._id,
+            username: userFound.username,
+            email: userFound.email,
+        })
+    })
+}
+
 module.exports = {
     registerHandler,
     loginHandler,
     logOutHandler,
-    profileHandler
+    profileHandler,
+    verifyToken,
 };
