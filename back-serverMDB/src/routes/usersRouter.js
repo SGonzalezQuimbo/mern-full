@@ -10,7 +10,7 @@ usersRouter.post("/login", loginHandler);
 
 usersRouter.post("/logout", logOutHandler);
 
-usersRouter.post("/verifytoken", verifyToken);
+usersRouter.get("/verifytoken", verifyToken);
 
 usersRouter.get("/profile", authRequired, profileHandler);
 

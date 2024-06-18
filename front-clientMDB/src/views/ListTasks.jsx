@@ -1,10 +1,11 @@
 import { axios } from "../helpers/axios";
 import { useState, useEffect} from "react";
+import { useAuth } from "../context/AuthContext";
 
 function ListTasks() {
 
     const {allTasks, setAllTasks} = useState([]);
-
+    const {user} = useAuth();
     // const cargaTasks = async() => {
     //     try {
     //         const dataDB = await axios.get('/tasks')
@@ -26,6 +27,8 @@ function ListTasks() {
             </nav>
 
             <h2>Todas las tareas tasks del usuario</h2>
+            <h2>Nombre: {user.username}</h2>
+            <h2>Email: {user.email}</h2>
         </>
     )
 }

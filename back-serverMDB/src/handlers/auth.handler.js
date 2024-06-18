@@ -45,7 +45,7 @@ const loginHandler = async (req, res) => {
 
         const token = await createAccessToken({id: userFound._id});
 
-        res.status(200).cookie("token", token).json({message: "Login succesfuly", user: userFound})
+        res.status(200).cookie("token", token, {sameSite: 'none', secure: true}).json({message: "Login succesfuly", user: userFound})
     } catch (error) {
         res.status(400).json({error: error.message})
     }

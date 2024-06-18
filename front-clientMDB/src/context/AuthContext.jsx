@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { axios } from "../helpers/axios";
 import Cookies from 'js-cookie';
+import { verifyTokenRequest } from "../helpers/verifyTokenRequest";
 
 export const AuthContext = createContext();
 
@@ -15,6 +16,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const signup = async (user) => {
         console.log(user);
@@ -34,6 +36,7 @@ export const AuthProvider = ({ children }) => {
             const res = await axios.post('/login', user);
             console.log(res.data);
             setIsAuthenticated(true);
+            console.log(isAuthenticated);
             window.alert(res.data.message)
         } catch (error) {
             console.log("ERROR", error.response.data.message);
@@ -42,6 +45,38 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
+       async function checkLogin() {
+            const cookies = Cookies.get();
+
+        if (!cookies.token) {
+            setIsAuthenticated(false);
+            setLoading(false);
+            return setUser(null);
+        }
+
+        console.log(loading, isAuthenticated);
+            try {
+                const res = await verifyTokenRequest(cookies.token)
+                if (!res.data) {
+                    setIsAuthenticated(false);
+                    setLoading(false);
+                    return;
+                }
+
+                setIsAuthenticated(true);
+                setUser(res.data);
+                setLoading(false);
+
+                console.log(loading, isAuthenticated);
+
+            } catch (error) {
+                setIsAuthenticated(false);
+                setUser(null);
+                setLoading(false);
+            }
+        };
+
+        checkLogin();
 
     }, [])
 
@@ -52,6 +87,7 @@ export const AuthProvider = ({ children }) => {
                 signin,
                 user,
                 isAuthenticated,
+                loading,
             }}>
             {children}
         </AuthContext.Provider>
