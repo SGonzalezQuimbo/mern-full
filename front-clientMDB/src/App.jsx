@@ -6,6 +6,7 @@ import './App.css'
 import LoginView from './views/LoginView';
 import ListTasks from './views/ListTasks';
 import ProtectedRoute from './ProtectedRoute';
+import NavBar from './components/NavBar';
 
 function App() {
 
@@ -13,14 +14,14 @@ function App() {
 
   return (
     <div className='app'>
-      <h1>NavBar</h1>
+      <NavBar/>
       <Routes>
         <Route path='/' element={<h1>HomeView</h1>} />
         <Route path='/login' element={<LoginView />} />
         <Route path='/register' element={<RegisterView />} />
         <Route element={<ProtectedRoute/>}>
           <Route path='/tasks' element={<ListTasks />} />
-          <Route path='/add-task' element={<h1>TaskFormView</h1>} />
+          <Route path='/add-task' element={<h1>TaskFormView para nueva tarea</h1>} />
           <Route path='/detail-tasks/:id' element={<h1>TaskFormView</h1>} />
           <Route path='/profile' element={<h1>ProfileView</h1>} />
         </Route>

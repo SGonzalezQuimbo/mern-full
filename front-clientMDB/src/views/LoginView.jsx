@@ -9,7 +9,11 @@ import { useAuth } from "../context/AuthContext";
 function LoginView() {
     const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
-    const {signin} = useAuth();
+    const {signin, isAuthenticated} = useAuth();
+
+    useEffect(()=> {
+        if (isAuthenticated) navigate('/tasks')
+    }, [isAuthenticated]);
 
     const onSubmit = handleSubmit((values) => {
         signin(values);

@@ -36,6 +36,7 @@ export const AuthProvider = ({ children }) => {
             const res = await axios.post('/login', user);
             console.log(res.data);
             setIsAuthenticated(true);
+            setUser(res.data);
             console.log(isAuthenticated);
             window.alert(res.data.message)
         } catch (error) {
@@ -43,6 +44,21 @@ export const AuthProvider = ({ children }) => {
             window.alert("ERROR", error.response.data.message)
         }
     };
+
+    //puedo usar la funcion de logout desde el backend
+    // const logout = async () => {
+    //     try {
+            
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    const logout = () => {
+        Cookies.remove("token");
+        setIsAuthenticated(false);
+        setUser(null);
+    }
 
     useEffect(() => {
        async function checkLogin() {
@@ -85,6 +101,7 @@ export const AuthProvider = ({ children }) => {
             value={{
                 signup,
                 signin,
+                logout,
                 user,
                 isAuthenticated,
                 loading,
