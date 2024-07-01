@@ -9,7 +9,6 @@ function ListTasks() {
 
     const { getTasks, tasks} = useTasks();
     const { isAuthenticated, user } = useAuth();
-
     useEffect(() => {
         getTasks();
     }, [])
@@ -19,14 +18,9 @@ function ListTasks() {
     return (
         <>
 
-            <h2>Nombre: {user?.username}</h2>
-            <h2>Email: {user?.email}</h2>
+            {tasks.length === 0 ? <h1>No hay Tareas, comienza a agregar tus tareas</h1> : <h1>Todas mis tareas:</h1>}
 
-
-
-
-            <div>
-                {tasks.length === 0 ? <h1>No hay Tareas, comienza a agregar tus tareas</h1> : <h1>Todas mis tareas:</h1>}
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2 justify-center">
                 {tasks?.map((task) => (
                     <Task task={task} key={task._id} />
                 ))}

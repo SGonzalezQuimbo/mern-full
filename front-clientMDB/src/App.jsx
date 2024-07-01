@@ -22,7 +22,7 @@ function App() {
         <Route element={<ProtectedRoute/>}>
           <Route path='/tasks' element={<ListTasks />} />
           <Route path='/add-task' element={<TaskFormView/>} />
-          <Route path='/detail-tasks/:id' element={<h1>TaskFormViewParaEditarrr</h1>} />
+          <Route path='/detail-tasks/:id' element={<TaskFormView/>} />
           <Route path='/profile' element={<h1>ProfileView</h1>} />
         </Route>
       </Routes>

@@ -19,10 +19,8 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     const signup = async (user) => {
-        console.log(user);
         try {
             const res = await axios.post('/register', user);
-            console.log(res);
             setUser(res.data);
             setIsAuthenticated(true);
         } catch (error) {
@@ -31,15 +29,12 @@ export const AuthProvider = ({ children }) => {
     }
 
     const signin = async (user) => {
-        console.log(user);
         try {
             const res = await axios.post('/login', user);
-            console.log(res.data);
             setIsAuthenticated(true);
-            setUser(res.data);
-            console.log(isAuthenticated);
+            setUser(res.data.user);
             window.alert(res.data.message)
-             
+
         } catch (error) {
             console.log("ERROR", error.response.data.message);
             window.alert("ERROR", error.response.data.message)
@@ -49,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     //puedo usar la funcion de logout desde el backend
     // const logout = async () => {
     //     try {
-            
+
     //     } catch (error) {
     //         console.log(error)
     //     }
@@ -62,16 +57,14 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-       async function checkLogin() {
+        async function checkLogin() {
             const cookies = Cookies.get();
 
-        if (!cookies.token) {
-            setIsAuthenticated(false);
-            setLoading(false);
-            return setUser(null);
-        }
-
-        console.log(loading, isAuthenticated);
+            if (!cookies.token) {
+                setIsAuthenticated(false);
+                setLoading(false);
+                return setUser(null);
+            }
             try {
                 const res = await verifyTokenRequest(cookies.token)
                 if (!res.data) {
@@ -83,8 +76,6 @@ export const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
                 setUser(res.data);
                 setLoading(false);
-
-                console.log(loading, isAuthenticated);
 
             } catch (error) {
                 setIsAuthenticated(false);

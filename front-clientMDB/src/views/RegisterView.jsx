@@ -8,7 +8,6 @@ function RegisterView() {
     const { register, handleSubmit } = useForm(); //aca tambien extraer los errorres para mostrarlos en pantalla
     const {signup, isAuthenticated} = useAuth();
     const navigate = useNavigate();
-    console.log(isAuthenticated);
 
 
     useEffect(()=>{

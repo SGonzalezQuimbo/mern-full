@@ -12,7 +12,7 @@ tasksRouter.post("/tasks", authRequired, createTaskHandler);
 
 tasksRouter.put("/tasks/:id", authRequired, updateTaskHandler);
 
-tasksRouter.delete("tasks/:id", authRequired, deleteTaskHandler);
+tasksRouter.delete("/tasks/:id", authRequired, deleteTaskHandler);
 
 
 
