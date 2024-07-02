@@ -40,6 +40,8 @@ function NavBar() {
                     </div>
                 </div>
             </div>
+
+            <></>
             
             <nav className="bg-gray-600  my-3 flex justify-between py-5 px-10 rounded-lg">
                 <Link to='/'>
